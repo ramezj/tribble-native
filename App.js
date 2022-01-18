@@ -5,7 +5,6 @@ import 'react-native-get-random-values'
 import { WebView } from 'react-native-webview'
 import { ethers } from 'ethers';
 import React, { useState, useEffect } from 'react'
-import { NativeRouter, Route, Link, Routes } from "react-router-native";
 import SignUp from './components/SignUp'
 import Home from './components/Home'
 
@@ -43,15 +42,10 @@ export default function App() {
 //     )
 //   }
   return ( 
-    <NativeRouter>
     <View style={styles.container}>
       {/* <Text>Hello {JSON.stringify(isLoggedIn)}</Text> */}
-        <Routes>
-          <Route exact path="/signup" element={SignUp} />
-          <Route exact path="/" element={< Home />} />
-        </Routes>
+        <Text>test</Text>
     </View>
-    </NativeRouter>
   );
 }
 
