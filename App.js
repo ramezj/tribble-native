@@ -7,7 +7,8 @@ import { ethers } from 'ethers';
 import React, { useState, useEffect } from 'react'
 import SignUp from './components/SignUp'
 import Home from './components/Home'
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export default function App() {
 //   const [ wallet, setWallet ] = useState();
@@ -41,11 +42,16 @@ export default function App() {
 //     </View>
 //     )
 //   }
+      const Stack = createNativeStackNavigator();
   return ( 
-    <View style={styles.container}>
-      {/* <Text>Hello {JSON.stringify(isLoggedIn)}</Text> */}
-        <Text>test</Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home" screenOptions={{
+    headerShown: false
+  }}>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

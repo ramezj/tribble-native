@@ -5,15 +5,29 @@ import 'react-native-get-random-values'
 import { WebView } from 'react-native-webview'
 import { ethers } from 'ethers';
 import React, { useState, useEffect } from 'react'
-import { NativeRouter, Route, Link } from "react-router-native";
+import { NativeRouter, Route } from "react-router-native";
+import { Link } from '@react-navigation/native';
 
 
 const SignUp = () => {
     return (
-        <View>
+        <View style={styles.container}>
             <Text>Hello from SignUp component..</Text>
+            <Link to="/Home">Home</Link>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    text: {
+        color: 'red',
+    }
+  });
 
 export default SignUp
