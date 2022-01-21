@@ -5,11 +5,12 @@ import 'react-native-get-random-values'
 import { WebView } from 'react-native-webview'
 import { ethers } from 'ethers';
 import React, { useState, useEffect } from 'react'
-import { Link } from '@react-navigation/native';
+import { Link, NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/native-stack';
 import * as SecureStore from 'expo-secure-store';
 
 
-const Home = () => {
+const Home = ({ navigation }) => {
     const [ value, setValue ] = useState();
     const retrieve = async () => {
         const result = await SecureStore.getItemAsync("key");
@@ -25,11 +26,9 @@ const Home = () => {
         const retrieve = async () => {
             const result = await SecureStore.getItemAsync("key");
             if (result) {
-                alert(result)
-                setValue(result)
+                navigation.push('Wallet')
             } else {
-                alert("no result found..")
-                setValue('User should be redirected to the signup route.')
+                navigation.push('SignUp')
             }
         }
         const save = async () => {
@@ -41,10 +40,9 @@ const Home = () => {
     }, [])
     return (
         <View style={styles.container}>
-            <Button title="retrieve key" onPress={retrieve}/>
             <Text>{value}</Text>
             <Text style={styles.text}>WelcomePage ( check for private key )</Text>
-            <Link to="/SignUp">SignUp</Link>
+            <Link to="/Wallet">Wallet</Link>
         </View>
     )
 }
