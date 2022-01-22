@@ -1,3 +1,3 @@
-Components of the project 
+## Components of the project 
 
-## proudly created by the Tribble team.
+Proudly created by the Tribble team.
