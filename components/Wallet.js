@@ -32,6 +32,7 @@ const Wallet = () => {
         <View style={styles.container}>
             <Text>Below is your privateKey.</Text>
             <Text>{JSON.stringify(wallet)}</Text>
+            <Link to="/LogOut">Delete Token</Link>
         </View>
     )
 }

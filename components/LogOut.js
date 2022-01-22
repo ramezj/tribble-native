@@ -10,24 +10,23 @@ import { Link, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/native-stack';
 import * as SecureStore from 'expo-secure-store';
 
-const SignUp = ({ navigation }) => {
-    const [ wallet, setWallet ] = useState();
-    const createWallet = async () => {
-        const wallet = await new ethers.Wallet.createRandom();
-        const pKey = wallet.privateKey;
-        const mnemonicPhrase = wallet.mnemonic;
-        const setSecureStore = await SecureStore.setItemAsync("pKey", pKey);
-        if (setSecureStore) {
-            navigation.navigate('Wallet')
+const LogOut = ({ navigation }) => {
+    const [ wallet, setWallet ] = useState("");
+    useEffect(() => {
+        const checkKey = async () => {
+            const check = await SecureStore.getItemAsync("pKey");
+            if (!check || check == null ) {
+                navigation.navigate("SignUp")
+            } 
         }
-        // const setSecureMnemonicPhrase = await SecureStore.setItemAsync("mnemonicPhrase", mnemonicPhrase)
-        setWallet(wallet);
+    }, [])
+    const deleteToken = async () => {
+        const deleteT = await SecureStore.deleteItemAsync("pKey");
     }
     return (
         <View style={styles.container}>
-            <Button title='Create Wallet' onPress={createWallet}/>
-            <Text>{JSON.stringify(wallet)}</Text>
-            <Link to="/Home">Home</Link>
+            <Text>Delete Token</Text>
+            <Button title="Delete Token" onPress={deleteToken} />
         </View>
     )
 }
@@ -44,4 +43,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default SignUp
+export default LogOut
