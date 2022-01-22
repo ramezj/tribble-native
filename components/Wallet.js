@@ -8,7 +8,6 @@ import React, { useState, useEffect } from 'react'
 import { NativeRouter, Route } from "react-router-native";
 import { Link } from '@react-navigation/native';
 
-
 const Wallet = () => {
     return (
         <View style={styles.container}>

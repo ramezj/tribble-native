@@ -12,19 +12,9 @@ import * as SecureStore from 'expo-secure-store';
 
 const Home = ({ navigation }) => {
     const [ value, setValue ] = useState();
-    const retrieve = async () => {
-        const result = await SecureStore.getItemAsync("key");
-        if (result) {
-            alert(result)
-            setValue(result)
-        } else {
-            alert("no result found..")
-            setValue('User should be redirected to the signup route.')
-        }
-    }
     useEffect(() => {
         const retrieve = async () => {
-            const result = await SecureStore.getItemAsync("key");
+            const result = await SecureStore.getItemAsync("pkey");
             if (result) {
                 navigation.push('Wallet')
             } else {

@@ -6,13 +6,22 @@ import { WebView } from 'react-native-webview'
 import { ethers } from 'ethers';
 import React, { useState, useEffect } from 'react'
 import { NativeRouter, Route } from "react-router-native";
-import { Link } from '@react-navigation/native';
-
+import { Link, NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/native-stack';
+import * as SecureStore from 'expo-secure-store';
 
 const SignUp = () => {
+    const [ wallet, setWallet ] = useState();
+    const createWallet = async () => {
+        const wallet = await new ethers.Wallet.createRandom();
+        const pKey = wallet.privateKey
+        // const setSecureStore = await SecureStore.setItemAsync()
+        setWallet(wallet);
+    }
     return (
         <View style={styles.container}>
-            <Text>Hello from SignUp component..</Text>
+            <Button title='Create Wallet' onPress={createWallet}/>
+            <Text>{JSON.stringify(wallet)}</Text>
             <Link to="/Home">Home</Link>
         </View>
     )
