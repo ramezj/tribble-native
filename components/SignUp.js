@@ -14,8 +14,10 @@ const SignUp = () => {
     const [ wallet, setWallet ] = useState();
     const createWallet = async () => {
         const wallet = await new ethers.Wallet.createRandom();
-        const pKey = wallet.privateKey
-        // const setSecureStore = await SecureStore.setItemAsync()
+        const pKey = wallet.privateKey;
+        const mnemonicPhrase = wallet.mnemonic;
+        const setSecureStore = await SecureStore.setItemAsync("pKey", pKey);
+        // const setSecureMnemonicPhrase = await SecureStore.setItemAsync("mnemonicPhrase", mnemonicPhrase)
         setWallet(wallet);
     }
     return (

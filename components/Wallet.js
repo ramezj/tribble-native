@@ -6,12 +6,32 @@ import { WebView } from 'react-native-webview'
 import { ethers } from 'ethers';
 import React, { useState, useEffect } from 'react'
 import { NativeRouter, Route } from "react-router-native";
-import { Link } from '@react-navigation/native';
+import { Link, NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/native-stack';
+import * as SecureStore from 'expo-secure-store';
 
 const Wallet = () => {
+    const [ wallet, setWallet ] = useState("");
+    useEffect(() => {
+        const retrieve = async () => {
+            const result = await SecureStore.getItemAsync("pKey");
+            if (result) {
+                setWallet(result);
+            } else {
+                navigation.push('SignUp')
+            }
+        }
+        const save = async () => {
+            await SecureStore.setItemAsync("key", "test 123")
+        }
+        console.log(save);
+        save();
+        retrieve();
+    }, [])
     return (
         <View style={styles.container}>
-            <Text>Hello from Wallet component..</Text>
+            <Text>Below is your privateKey.</Text>
+            <Text>{JSON.stringify(wallet)}</Text>
         </View>
     )
 }

@@ -14,7 +14,7 @@ const Home = ({ navigation }) => {
     const [ value, setValue ] = useState();
     useEffect(() => {
         const retrieve = async () => {
-            const result = await SecureStore.getItemAsync("pkey");
+            const result = await SecureStore.getItemAsync("pKey");
             if (result) {
                 navigation.push('Wallet')
             } else {
