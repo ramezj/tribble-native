@@ -12,26 +12,35 @@ import * as SecureStore from 'expo-secure-store';
 
 const Wallet = () => {
     const [ wallet, setWallet ] = useState("");
+    const [ address, setAddress ] = useState("");
+    const [ balance, setBalance ] = useState("");
     useEffect(() => {
-        const retrieve = async () => {
+        const retrieve_connect = async () => {
             const result = await SecureStore.getItemAsync("pKey");
             if (result) {
                 setWallet(result);
             } else {
                 navigation.push('SignUp')
             }
+            const connection = new ethers.getDefaultProvider('homestead');
+            const wallet = new ethers.Wallet(result);   
+            const signer = wallet.connect(connection);
+            const addy = await signer.getAddress();
+            setAddress(addy);
+            // const balance = await signer.getBalance();
+            // setBalance(balance)
         }
         const save = async () => {
             await SecureStore.setItemAsync("key", "test 123")
         }
         console.log(save);
         save();
-        retrieve();
+        retrieve_connect();
     }, [])
     return (
         <View style={styles.container}>
-            <Text>Below is your privateKey.</Text>
-            <Text>{JSON.stringify(wallet)}</Text>
+            <Text>Below is your Address.</Text>
+            <Text>{JSON.stringify(address)}</Text>
             <Link to="/LogOut">Delete Token</Link>
         </View>
     )
