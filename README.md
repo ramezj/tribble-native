@@ -1,3 +1,3 @@
-## Tribble 🌏🚀
+## Tribble 🌏
 
-A Security based Ethereum wallet for 📱.
+A Security based Ethereum wallet for 📱
