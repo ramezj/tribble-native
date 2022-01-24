@@ -20,7 +20,12 @@ const LogOut = ({ navigation }) => {
         }
     }, [])
     const deleteToken = async () => {
-        const deleteT = await SecureStore.deleteItemAsync("pKey");
+        try {
+            const deleteT = await SecureStore.deleteItemAsync("pKey");
+            navigation.push('SignUp')
+        } catch (error) {
+            console.log(error);
+        }
     }
     return (
         <View style={styles.container}>

@@ -30,7 +30,6 @@ const SignUp = ({ navigation }) => {
         <View style={styles.container}>
             <Button title='Create Wallet' onPress={createWallet}/>
             <Text>{JSON.stringify(wallet)}</Text>
-            <Link to="/Home">Home</Link>
         </View>
     )
 }

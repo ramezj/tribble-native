@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Button, Text, View } from 'react-native';
+import { StyleSheet, Button, Text, View, TouchableOpacity } from 'react-native';
 import  AsyncStorage  from '@react-native-async-storage/async-storage';
 import { WebView } from 'react-native-webview'
 import { ethers } from 'ethers';
@@ -8,6 +8,7 @@ import { NativeRouter, Route } from "react-router-native";
 import { Link, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/native-stack';
 import * as SecureStore from 'expo-secure-store';
+import * as Clipboard from 'expo-clipboard';
 
 const Wallet = () => {
     const [ wallet, setWallet ] = useState("");
@@ -34,13 +35,19 @@ const Wallet = () => {
         save();
         retrieve_connect();
     }, [])
+    const copyToClipboard = () => {
+        Clipboard.setString(address);
+      };
     return (
         <View style={styles.container}>
             <Text>Below is your Address.</Text>
+            <TouchableOpacity onPress={copyToClipboard}>
             <Text>{JSON.stringify(address)}</Text>
+            </TouchableOpacity>
             <Text>Below is your PrivateKey</Text>
             <Text>{JSON.stringify(wallet)}</Text>
             <Link to="/LogOut">Delete Token</Link>
+            <Button onPress={copyToClipboard} title='Copy Addy' />
         </View>
     )
 }
