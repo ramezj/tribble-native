@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Button, Text, View } from 'react-native';
 import  AsyncStorage  from '@react-native-async-storage/async-storage';
-import 'react-native-get-random-values'
 import { WebView } from 'react-native-webview'
 import { ethers } from 'ethers';
 import React, { useState, useEffect } from 'react'
@@ -27,8 +26,6 @@ const Wallet = () => {
             const signer = wallet.connect(connection);
             const addy = await signer.getAddress();
             setAddress(addy);
-            // const balance = await signer.getBalance();
-            // setBalance(balance)
         }
         const save = async () => {
             await SecureStore.setItemAsync("key", "test 123")
@@ -41,6 +38,8 @@ const Wallet = () => {
         <View style={styles.container}>
             <Text>Below is your Address.</Text>
             <Text>{JSON.stringify(address)}</Text>
+            <Text>Below is your PrivateKey</Text>
+            <Text>{JSON.stringify(wallet)}</Text>
             <Link to="/LogOut">Delete Token</Link>
         </View>
     )

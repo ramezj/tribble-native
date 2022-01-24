@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Button, Text, View } from 'react-native';
 import  AsyncStorage  from '@react-native-async-storage/async-storage';
-import 'react-native-get-random-values'
 import { WebView } from 'react-native-webview'
 import { ethers } from 'ethers';
 import React, { useState, useEffect } from 'react'
@@ -12,16 +11,20 @@ import * as SecureStore from 'expo-secure-store';
 
 const SignUp = ({ navigation }) => {
     const [ wallet, setWallet ] = useState();
+    const [ error, setError ] = useState();
     const createWallet = async () => {
+        try {
         const wallet = await new ethers.Wallet.createRandom();
         const pKey = wallet.privateKey;
         const mnemonicPhrase = wallet.mnemonic;
         const setSecureStore = await SecureStore.setItemAsync("pKey", pKey);
-        if (setSecureStore) {
-            navigation.navigate('Wallet')
+        setWallet(wallet);
+        navigation.push('Wallet')
+        } catch (error) {
+            console.log(error);
+            setError(error);
         }
         // const setSecureMnemonicPhrase = await SecureStore.setItemAsync("mnemonicPhrase", mnemonicPhrase)
-        setWallet(wallet);
     }
     return (
         <View style={styles.container}>
