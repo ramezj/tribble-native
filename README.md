@@ -1,3 +1,12 @@
-## Tribble 🌏
+# Tribble
+Tribble Is An Open-Source Ethereum Wallet for IOS. 
 
-A Security based Ethereum wallet for 📱
+## Build
+```bash
+yarn install
+```
+```
+yarn start 
+```
+## License
+[MIT](https://choosealicense.com/licenses/mit/)

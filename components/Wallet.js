@@ -38,6 +38,10 @@ const Wallet = () => {
     const copyToClipboard = () => {
         Clipboard.setString(address);
       };
+      // only for beta testing.
+      const copyPrivateKey = () => {
+        Clipboard.setString(wallet);
+      };
     return (
         <View style={styles.container}>
             <Text>Below is your Address.</Text>
@@ -45,7 +49,9 @@ const Wallet = () => {
             <Text>{JSON.stringify(address)}</Text>
             </TouchableOpacity>
             <Text>Below is your PrivateKey</Text>
+            <TouchableOpacity onPress={copyPrivateKey}>
             <Text>{JSON.stringify(wallet)}</Text>
+            </TouchableOpacity>
             <Link to="/LogOut">Delete Token</Link>
             <Button onPress={copyToClipboard} title='Copy Addy' />
         </View>
