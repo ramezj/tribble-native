@@ -8,6 +8,9 @@ import { NativeRouter, Route } from "react-router-native";
 import { Link, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/native-stack';
 import * as SecureStore from 'expo-secure-store';
+import * as Crypto from 'expo-crypto';
+import JWT from 'expo-jwt';
+
 
 const SignUp = ({ navigation }) => {
     const [ wallet, setWallet ] = useState();
@@ -16,8 +19,14 @@ const SignUp = ({ navigation }) => {
         try {
         const wallet = await new ethers.Wallet.createRandom();
         const pKey = wallet.privateKey;
-        const mnemonicPhrase = wallet.mnemonic;
-        const setSecureStore = await SecureStore.setItemAsync("pKey", pKey);
+        const Wallet = await { 
+            address: wallet.address,
+            privateKey: wallet.privateKey,
+            mnemonicPhrase: wallet.mnemonic.phrase
+        }
+        // Encrypt Wallet with JWT
+        const encoded = await JWT.encode(Wallet, "1239SEH9S8FH9S8EFSUEFBSIUFENEIU");
+        const setSecureStore = await SecureStore.setItemAsync("pKey", encoded);
         setWallet(wallet);
         navigation.push('Wallet')
         } catch (error) {
