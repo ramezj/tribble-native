@@ -10,6 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@ethersproject/providers": "^5.5.3",
     "@ethersproject/shims": "^5.5.0",
     "@react-native-async-storage/async-storage": "^1.15.15",
     "@react-navigation/native": "^6.0.6",
