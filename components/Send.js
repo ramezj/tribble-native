@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Button, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Button, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import  AsyncStorage  from '@react-native-async-storage/async-storage';
 import { WebView } from 'react-native-webview'
 import "@ethersproject/shims"
@@ -13,11 +13,12 @@ import * as Clipboard from 'expo-clipboard';
 import JWT from 'expo-jwt';
 import { InfuraProvider } from '@ethersproject/providers';
 
-const Wallet = ({ navigation }) => {
+const Send = ({ navigation }) => {
     const [ wallet, setWallet ] = useState("");
     const [ address, setAddress ] = useState("");
     const [ balance, setBalance ] = useState("Loading..");
     const [ mnemonic, setMnemonic ] = useState("");
+    const [ recipient, setRecipient ] = useState(null);
     useEffect(() => {
         const retrieve_connect = async () => {
             const result = await SecureStore.getItemAsync("pKey");
@@ -68,23 +69,14 @@ const Wallet = ({ navigation }) => {
       };
     return (
         <View style={styles.container}>
-            <Text>Below is your Address.</Text>
-            <TouchableOpacity onPress={copyToClipboard}>
-            <Text>{JSON.stringify(address)}</Text>
-            </TouchableOpacity>
-            <Text>Below is your PrivateKey</Text>
-            <TouchableOpacity onPress={copyPrivateKey}>
-            <Text>{JSON.stringify(wallet)}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-            <Text>{JSON.stringify(mnemonic)}</Text>
-            </TouchableOpacity>
+            <Text>This is the Send PAGE.</Text>
             <Text>Balance:</Text>
             <TouchableOpacity>
             <Text>{JSON.stringify(balance)}</Text>
             </TouchableOpacity>
-            <Link to="/LogOut">Delete Token</Link>
-            <Link to="/Send">Send Transaction</Link>
+            <TextInput placeholder='Recipient' style={styles.TextInput} onChangeText={newText => setRecipient(newText)} value={recipient}/>
+            <Text>{JSON.stringify(recipient)}</Text>
+            <Link to="/Wallet">Wallet</Link>
         </View>
     )
 }
@@ -98,7 +90,11 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'red',
+    },
+    TextInput: {
+        width:"50%",
+        textAlign: "center"
     }
   });
 
-export default Wallet
+export default Send

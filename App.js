@@ -9,6 +9,7 @@ import SignUp from './components/SignUp'
 import Home from './components/Home'
 import Wallet from './components/Wallet'
 import LogOut from './components/LogOut'
+import Send from './components/Send'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -54,6 +55,7 @@ export default function App() {
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="Wallet" component={Wallet} />
         <Stack.Screen name="LogOut" component={LogOut} />
+        <Stack.Screen name="Send" component={Send} />
       </Stack.Navigator>
     </NavigationContainer>
   );
