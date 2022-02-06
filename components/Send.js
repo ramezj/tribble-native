@@ -19,6 +19,9 @@ const Send = ({ navigation }) => {
     const [ balance, setBalance ] = useState("Loading..");
     const [ mnemonic, setMnemonic ] = useState("");
     const [ recipient, setRecipient ] = useState(null);
+    const [ amount, setAmount ] = useState(null);
+    const [ gas, setGas ] = useState(null);
+    const [ transactionError, setTransactionError] = useState(null);
     useEffect(() => {
         const retrieve_connect = async () => {
             const result = await SecureStore.getItemAsync("pKey");
@@ -43,6 +46,8 @@ const Send = ({ navigation }) => {
             const wallet = new ethers.Wallet(decode.privateKey);   
             const signer = wallet.connect(connection);
             const addy = await signer.getAddress();
+            const gasPrice = await connection.getGasPrice();
+            setGas(gasPrice.hex)
             try {
                 const balance = await signer.getBalance();
                 setBalance(balance);
@@ -60,6 +65,23 @@ const Send = ({ navigation }) => {
         save();
         retrieve_connect();
     }, [])
+    const sendTransaction = async () => {
+        // Reconnect here 
+        const connection = await new ethers.getDefaultProvider('kovan');
+        const Wallet = new ethers.Wallet(wallet); 
+        const signer = await Wallet.connect(connection);
+        console.log(recipient)
+        const tx = {
+            from: address,
+            to: recipient,
+            value:ethers.utils.parseUnits("0.005", "ether"),
+            gasPrice: gas,
+            gasLimit: ethers.utils.hexlify(100000),
+            nonce: connection.getTransactionCount(address, "latest")
+        }
+        const transaction = await signer.sendTransaction(tx);
+        console.log(transaction);
+    }
     const copyToClipboard = () => {
         Clipboard.setString(address);
       };
@@ -75,7 +97,10 @@ const Send = ({ navigation }) => {
             <Text>{JSON.stringify(balance)}</Text>
             </TouchableOpacity>
             <TextInput placeholder='Recipient' style={styles.TextInput} onChangeText={newText => setRecipient(newText)} value={recipient}/>
+            <TextInput placeholder='Amount' style={styles.TextInput} onChangeText={newText => setAmount(newText)} value={amount}/>
             <Text>{JSON.stringify(recipient)}</Text>
+            <Text>{JSON.stringify(amount)}</Text>
+            <Button onPress={sendTransaction} title="send Transaction" />
             <Link to="/Wallet">Wallet</Link>
         </View>
     )
