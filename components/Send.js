@@ -50,7 +50,8 @@ const Send = ({ navigation }) => {
             setGas(gasPrice.hex)
             try {
                 const balance = await signer.getBalance();
-                setBalance(balance);
+                setBalance(balance.hex);
+                const converted = await BigNumber.from(balance.hex);
                 console.log(balance);
             } catch (error) {
                 console.log(error);

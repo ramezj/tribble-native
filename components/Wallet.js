@@ -16,7 +16,7 @@ import { InfuraProvider } from '@ethersproject/providers';
 const Wallet = ({ navigation }) => {
     const [ wallet, setWallet ] = useState("");
     const [ address, setAddress ] = useState("");
-    const [ balance, setBalance ] = useState("Loading..");
+    const [ balance, setBalance ] = useState();
     const [ mnemonic, setMnemonic ] = useState("");
     useEffect(() => {
         const retrieve_connect = async () => {
@@ -42,20 +42,14 @@ const Wallet = ({ navigation }) => {
             const wallet = new ethers.Wallet(decode.privateKey);   
             const signer = wallet.connect(connection);
             const addy = await signer.getAddress();
-            try {
-                const balance = await signer.getBalance();
-                setBalance(balance);
-                console.log(balance);
-            } catch (error) {
-                console.log(error);
-            }
-
+            const balance = await signer.getBalance();
+            const converted = ethers.utils.formatEther(balance._hex);
+            setBalance(ethers.utils.formatEther(balance._hex));
             setAddress(addy);
         }
         const save = async () => {
             await SecureStore.setItemAsync("key", "test 123")
         }
-        console.log(save);
         save();
         retrieve_connect();
     }, [])
@@ -81,7 +75,7 @@ const Wallet = ({ navigation }) => {
             </TouchableOpacity>
             <Text>Balance:</Text>
             <TouchableOpacity>
-            <Text>{JSON.stringify(balance)}</Text>
+            <Text>{balance} ETH </Text>
             </TouchableOpacity>
             <Link to="/LogOut">Delete Token</Link>
             <Link to="/Send">Send Transaction</Link>
