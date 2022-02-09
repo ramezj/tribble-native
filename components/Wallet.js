@@ -11,13 +11,12 @@ import { createStackNavigator } from '@react-navigation/native-stack';
 import * as SecureStore from 'expo-secure-store';
 import * as Clipboard from 'expo-clipboard';
 import JWT from 'expo-jwt';
-import { InfuraProvider } from '@ethersproject/providers';
 
 const Wallet = ({ navigation }) => {
-    const [ wallet, setWallet ] = useState("");
-    const [ address, setAddress ] = useState("");
-    const [ balance, setBalance ] = useState();
-    const [ mnemonic, setMnemonic ] = useState("");
+    const [ wallet, setWallet ] = useState("⌛");
+    const [ address, setAddress ] = useState("⌛");
+    const [ balance, setBalance ] = useState("⌛");
+    const [ mnemonic, setMnemonic ] = useState("⌛");
     useEffect(() => {
         const retrieve_connect = async () => {
             const result = await SecureStore.getItemAsync("pKey");
@@ -43,7 +42,6 @@ const Wallet = ({ navigation }) => {
             const signer = wallet.connect(connection);
             const addy = await signer.getAddress();
             const balance = await signer.getBalance();
-            const converted = ethers.utils.formatEther(balance._hex);
             setBalance(ethers.utils.formatEther(balance._hex));
             setAddress(addy);
         }

@@ -11,16 +11,16 @@ import { createStackNavigator } from '@react-navigation/native-stack';
 import * as SecureStore from 'expo-secure-store';
 import * as Clipboard from 'expo-clipboard';
 import JWT from 'expo-jwt';
-import { InfuraProvider } from '@ethersproject/providers';
+
 
 const Send = ({ navigation }) => {
-    const [ wallet, setWallet ] = useState("");
-    const [ address, setAddress ] = useState("");
-    const [ balance, setBalance ] = useState("Loading..");
-    const [ mnemonic, setMnemonic ] = useState("");
-    const [ recipient, setRecipient ] = useState(null);
-    const [ amount, setAmount ] = useState(null);
-    const [ gas, setGas ] = useState(null);
+    const [ wallet, setWallet ] = useState("⌛");
+    const [ address, setAddress ] = useState("⌛");
+    const [ balance, setBalance ] = useState("⌛");
+    const [ mnemonic, setMnemonic ] = useState("⌛");
+    const [ recipient, setRecipient ] = useState();
+    const [ amount, setAmount ] = useState();
+    const [ gas, setGas ] = useState();
     const [ transactionError, setTransactionError] = useState(null);
     useEffect(() => {
         const retrieve_connect = async () => {
@@ -48,15 +48,9 @@ const Send = ({ navigation }) => {
             const addy = await signer.getAddress();
             const gasPrice = await connection.getGasPrice();
             setGas(gasPrice.hex)
-            try {
                 const balance = await signer.getBalance();
-                setBalance(balance.hex);
-                const converted = await BigNumber.from(balance.hex);
+                setBalance(ethers.utils.formatEther(balance._hex));
                 console.log(balance);
-            } catch (error) {
-                console.log(error);
-            }
-
             setAddress(addy);
         }
         const save = async () => {
@@ -75,13 +69,17 @@ const Send = ({ navigation }) => {
         const tx = {
             from: address,
             to: recipient,
-            value:ethers.utils.parseUnits("0.005", "ether"),
+            value:ethers.utils.parseUnits(amount, "ether"),
             gasPrice: gas,
             gasLimit: ethers.utils.hexlify(100000),
             nonce: connection.getTransactionCount(address, "latest")
         }
-        const transaction = await signer.sendTransaction(tx);
-        console.log(transaction);
+        try {
+            const transaction = await signer.sendTransaction(tx);
+            console.log(transaction);
+        } catch (error) {
+           console.error(error); 
+        }
     }
     const copyToClipboard = () => {
         Clipboard.setString(address);
@@ -97,8 +95,8 @@ const Send = ({ navigation }) => {
             <TouchableOpacity>
             <Text>{JSON.stringify(balance)}</Text>
             </TouchableOpacity>
-            <TextInput placeholder='Recipient' style={styles.TextInput} onChangeText={newText => setRecipient(newText)} value={recipient}/>
-            <TextInput placeholder='Amount' style={styles.TextInput} onChangeText={newText => setAmount(newText)} value={amount}/>
+            <TextInput selectTextOnFocus={true} placeholder='Recipient' style={styles.TextInput} onChangeText={newText => setRecipient(newText)} value={recipient}/>
+            <TextInput selectTextOnFocus={true} placeholder='Amount' style={styles.TextInput} onChangeText={newText => setAmount(newText)} value={amount}/>
             <Text>{JSON.stringify(recipient)}</Text>
             <Text>{JSON.stringify(amount)}</Text>
             <Button onPress={sendTransaction} title="send Transaction" />
