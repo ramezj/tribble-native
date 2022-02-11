@@ -78,7 +78,9 @@ const Send = ({ navigation }) => {
             const transaction = await signer.sendTransaction(tx);
             console.log(transaction);
         } catch (error) {
-           console.error(error); 
+            console.log(error);
+            return setTransactionError("⚠️ " + error.reason);
+            console.error(error); 
         }
     }
     const copyToClipboard = () => {
@@ -90,6 +92,7 @@ const Send = ({ navigation }) => {
       };
     return (
         <View style={styles.container}>
+            <Text>{transactionError}</Text>
             <Text>This is the Send PAGE.</Text>
             <Text>Balance:</Text>
             <TouchableOpacity>

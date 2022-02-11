@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Button, Text, View } from 'react-native';
+import { StyleSheet, Button, Text, View, Pressable } from 'react-native';
 import  AsyncStorage  from '@react-native-async-storage/async-storage';
 import { WebView } from 'react-native-webview'
 import { ethers } from 'ethers';
@@ -37,7 +37,9 @@ const SignUp = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
-            <Button title='Create Wallet' onPress={createWallet}/>
+            <Pressable style={styles.button} onPress={createWallet}>
+            <Text style={styles.text}>Create a wallet</Text>
+            </Pressable>
             <Text>{JSON.stringify(wallet)}</Text>
         </View>
     )
@@ -50,8 +52,18 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    button: {
+        backgroundColor:"black",
+        width:"50%",
+        textAlign: "center",
+        justifyContent: "center",
+        display: "flex",
+        height: "6%",
+        borderRadius:25
+    },
     text: {
-        color: 'red',
+        textAlign: "center",
+        color: "white"
     }
   });
 

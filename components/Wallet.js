@@ -60,17 +60,17 @@ const Wallet = ({ navigation }) => {
       };
     return (
         <View style={styles.container}>
-            <Text>Below is your Address.</Text>
+            {/* <Text>Below is your Address.</Text> */}
             <TouchableOpacity onPress={copyToClipboard}>
             <Text>{JSON.stringify(address)}</Text>
             </TouchableOpacity>
-            <Text>Below is your PrivateKey</Text>
+            {/* <Text>Below is your PrivateKey</Text>
             <TouchableOpacity onPress={copyPrivateKey}>
             <Text>{JSON.stringify(wallet)}</Text>
             </TouchableOpacity>
             <TouchableOpacity>
             <Text>{JSON.stringify(mnemonic)}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <Text>Balance:</Text>
             <TouchableOpacity>
             <Text>{balance} ETH </Text>
