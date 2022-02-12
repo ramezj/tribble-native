@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Button, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Button, Text, View, Pressable, TouchableHighlight } from 'react-native';
 import  AsyncStorage  from '@react-native-async-storage/async-storage';
 import { WebView } from 'react-native-webview'
 import { ethers } from 'ethers';
@@ -10,12 +10,14 @@ import { createStackNavigator } from '@react-navigation/native-stack';
 import * as SecureStore from 'expo-secure-store';
 import * as Crypto from 'expo-crypto';
 import JWT from 'expo-jwt';
+import * as Haptics from 'expo-haptics';
 
 
 const SignUp = ({ navigation }) => {
     const [ wallet, setWallet ] = useState();
     const [ error, setError ] = useState();
     const createWallet = async () => {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
         try {
         const wallet = await new ethers.Wallet.createRandom();
         const pKey = wallet.privateKey;
@@ -37,9 +39,12 @@ const SignUp = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
-            <Pressable style={styles.button} onPress={createWallet}>
+            <View style={styles.TribbleContainer}>
+            <Text style={styles.Tribble}>Tribble</Text> 
+            </View>
+            <TouchableHighlight underlayColor={"red"} style={styles.button} onPress={createWallet}>
             <Text style={styles.text}>Create a wallet</Text>
-            </Pressable>
+            </TouchableHighlight>
             <Text>{JSON.stringify(wallet)}</Text>
         </View>
     )
@@ -63,7 +68,21 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: "center",
-        color: "white"
+        color: "white",
+        fontWeight: "bold",
+        fontSize:16
+    },
+    Tribble: { 
+        bottom: 0,
+        fontWeight: "bold",
+        fontSize: 35,
+        marginBottom: 10,
+        textAlign: "center",
+    },
+    TribbleContainer: {
+        width:"50%",
+        textAlign: "center",
+        justifyContent: "center"
     }
   });
 
