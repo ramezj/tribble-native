@@ -11,6 +11,7 @@ import { createStackNavigator } from '@react-navigation/native-stack';
 import * as SecureStore from 'expo-secure-store';
 import * as Clipboard from 'expo-clipboard';
 import JWT from 'expo-jwt';
+import * as Haptics from 'expo-haptics';
 
 const Wallet = ({ navigation }) => {
     const [ wallet, setWallet ] = useState("⌛");
@@ -53,6 +54,7 @@ const Wallet = ({ navigation }) => {
     }, [])
     const copyToClipboard = () => {
         Clipboard.setString(address);
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       };
       // only for beta testing.
       const copyPrivateKey = () => {
@@ -62,7 +64,7 @@ const Wallet = ({ navigation }) => {
         <View style={styles.container}>
             {/* <Text>Below is your Address.</Text> */}
             <TouchableOpacity onPress={copyToClipboard}>
-            <Text>{JSON.stringify(address)}</Text>
+                <Text style={styles.address}>{address.substring(0, 15)}..</Text>
             </TouchableOpacity>
             {/* <Text>Below is your PrivateKey</Text>
             <TouchableOpacity onPress={copyPrivateKey}>
@@ -90,6 +92,10 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'red',
+    },
+    address: {
+        color: 'blue',
+        fontWeight:"bold"
     }
   });
 

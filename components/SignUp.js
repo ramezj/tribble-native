@@ -42,7 +42,7 @@ const SignUp = ({ navigation }) => {
             <View style={styles.TribbleContainer}>
             <Text style={styles.Tribble}>Tribble</Text> 
             </View>
-            <TouchableHighlight underlayColor={"red"} style={styles.button} onPress={createWallet}>
+            <TouchableHighlight underlayColor={"black"} style={styles.button} onPress={createWallet}>
             <Text style={styles.text}>Create a wallet</Text>
             </TouchableHighlight>
             <Text>{JSON.stringify(wallet)}</Text>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     button: {
-        backgroundColor:"black",
+        backgroundColor:"#323232",
         width:"50%",
         textAlign: "center",
         justifyContent: "center",

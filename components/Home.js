@@ -30,8 +30,7 @@ const Home = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Text>{value}</Text>
-            <Text style={styles.text}>WelcomePage ( check for private key )</Text>
-            <Link to="/Wallet">Wallet</Link>
+            <Text style={styles.text}>Logo Goes Here.</Text>
         </View>
     )
 }
