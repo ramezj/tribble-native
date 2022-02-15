@@ -9,7 +9,7 @@ yarn install
 yarn start 
 ```
 ## Screenshots
-![Logo](https://i.imgur.com/rZXHSQH.png)
+![Logo](https://i.imgur.com/Pjw2fzf.png)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
