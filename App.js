@@ -12,44 +12,18 @@ import LogOut from './components/LogOut'
 import Send from './components/Send'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 
 export default function App() {
-//   const [ wallet, setWallet ] = useState();
-//   const [ privateKey, setPrivateKey ] = useState();
-//   const [ isLoggedIn, setIsLoggedIn ] = useState();
-//   useEffect(async () => {
-//     const checkStorage = await AsyncStorage.getItem('privateKeyETH');
-//     console.log(checkStorage);
-//     setIsLoggedIn(checkStorage)
-
-//   }, [])
-//   const createWallet = async () => {
-//     const account = await new ethers.Wallet.createRandom();
-//     console.log(account);
-//     setPrivateKey(account.privateKey)
-//     setWallet(account)
-//     console.log(privateKey)
-//     const setPrivateKeyStorage = await AsyncStorage.setItem('privateKeyETH', privateKey)
-//     const getStorage = await AsyncStorage.getItem('privateKeyETH');
-//     console.log(getStorage);
-// }
-//   if ( !isLoggedIn ) {
-//     return (
-//       <View style={styles.container}>
-//       <Text>Open up App.js to start working on your app :D</Text>
-//       <Button title="Hello world!" onPress={createWallet}> </Button>
-//       <Text>{JSON.stringify(wallet)}</Text>
-//       <Text>{JSON.stringify(privateKey)}</Text>
-//       {/* <Text>{wallet.privateKey}</Text> */}
-//       <StatusBar style="auto" />
-//     </View>
-//     )
-//   }
+      const Tab = createMaterialTopTabNavigator();
       const Stack = createNativeStackNavigator();
+      const [ isSignedIn, setIsSignedIn ] = useState(false);
   return ( 
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home" screenOptions={{
-    headerShown: false
+    headerShown: false,
+    swipeEnabled:true
   }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="SignUp" component={SignUp} />
@@ -58,6 +32,15 @@ export default function App() {
         <Stack.Screen name="Send" component={Send} />
       </Stack.Navigator>
     </NavigationContainer>
+  // <NavigationContainer>
+  // <Tab.Navigator initialRoute="Home">
+  //   <Tab.Screen name="Home" component={Home} />
+  //   <Tab.Screen name="SignUp" component={SignUp} />
+  //   <Tab.Screen name="Wallet" component={Wallet} />
+  //   <Tab.Screen name="LogOut" component={LogOut} />
+  //   <Tab.Screen name="Send" component={Send} />
+  // </Tab.Navigator>
+  // </NavigationContainer>
   );
 }
 
