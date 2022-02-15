@@ -9,6 +9,6 @@ yarn install
 yarn start 
 ```
 
-[https://i.imgur.com/1JGp82l.png]
+![App Screenshot](https://i.imgur.com/1JGp82l.png)
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
