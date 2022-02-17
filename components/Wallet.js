@@ -14,8 +14,7 @@ import JWT from 'expo-jwt';
 import * as Haptics from 'expo-haptics';
 import { Copy } from "react-native-feather";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import LogOut from './LogOut'
-import Send from './Send'
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 const Wallet = ({ navigation }) => {
@@ -68,6 +67,7 @@ const Wallet = ({ navigation }) => {
       };
       // Share Button
       const onShare = async () => {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         try {
           const result = await Share.share({message:address});
           if (result.action === Share.sharedAction) {
@@ -86,10 +86,12 @@ const Wallet = ({ navigation }) => {
     return (
         <View style={styles.container}>
             {/* <Text>Below is your Address.</Text> */}
-                <Button onPress={copyToClipboard} title={`${address.substring(0, 15)}..`} />
-                <TouchableOpacity>
-                <Text style={styles.TextCopy}  onPress={onShare}><Copy /> Share Address </Text>
-                </TouchableOpacity>
+            
+                <Button style={styles.ButtonText} onPress={copyToClipboard} title={`${address.substring(0, 15)}..`} />
+                <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
+                <Text style={styles.TextCopy}  onPress={onShare}> Share Address </Text>
+                </LinearGradient>
+                
             {/* <Text>Below is your PrivateKey</Text>
             <TouchableOpacity onPress={copyPrivateKey}>
             <Text>{JSON.stringify(wallet)}</Text>
@@ -114,8 +116,14 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    ButtonText: {
+      color: "white"
+    },
     TextCopy: {
-        fontSize: 20
+        fontSize: 17,
+        color: "white",
+        textAlign: "center",
+        fontWeight: "bold"
     },
     text: {
         color: 'red',

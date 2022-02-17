@@ -11,7 +11,7 @@ import { createStackNavigator } from '@react-navigation/native-stack';
 import * as SecureStore from 'expo-secure-store';
 import * as Clipboard from 'expo-clipboard';
 import JWT from 'expo-jwt';
-
+import { LinearGradient } from 'expo-linear-gradient';
 
 const Send = ({ navigation }) => {
     const [ wallet, setWallet ] = useState("⌛");
@@ -48,9 +48,9 @@ const Send = ({ navigation }) => {
             const addy = await signer.getAddress();
             const gasPrice = await connection.getGasPrice();
             setGas(gasPrice.hex)
-                const balance = await signer.getBalance();
-                setBalance(ethers.utils.formatEther(balance._hex));
-                console.log(balance);
+            const balance = await signer.getBalance();
+            setBalance(ethers.utils.formatEther(balance._hex));
+            console.log(balance);
             setAddress(addy);
         }
         const save = async () => {
@@ -93,7 +93,6 @@ const Send = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Text>{transactionError}</Text>
-            <Text>This is the Send PAGE.</Text>
             <Text>Balance:</Text>
             <TouchableOpacity>
             <Text>{JSON.stringify(balance)}</Text>
@@ -102,7 +101,9 @@ const Send = ({ navigation }) => {
             <TextInput selectTextOnFocus={true} placeholder='Amount' style={styles.TextInput} onChangeText={newText => setAmount(newText)} value={amount}/>
             <Text>{JSON.stringify(recipient)}</Text>
             <Text>{JSON.stringify(amount)}</Text>
-            <Button onPress={sendTransaction} title="send Transaction" />
+            <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
+            <Text style={styles.TextCopy}  onPress={sendTransaction}> Send ETH</Text>
+            </LinearGradient>
             <Link to="/Wallet">Wallet</Link>
         </View>
     )
@@ -121,7 +122,23 @@ const styles = StyleSheet.create({
     TextInput: {
         width:"50%",
         textAlign: "center"
-    }
+    },
+    TextCopy: {
+        fontSize: 17,
+        color: "white",
+        textAlign: "center",
+        fontWeight: "bold"
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+      },button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+      },
   });
 
 export default Send
