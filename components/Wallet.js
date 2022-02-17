@@ -15,6 +15,7 @@ import * as Haptics from 'expo-haptics';
 import { Copy } from "react-native-feather";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Touchable } from 'react-native-web';
 
 
 const Wallet = ({ navigation }) => {
@@ -88,9 +89,11 @@ const Wallet = ({ navigation }) => {
             {/* <Text>Below is your Address.</Text> */}
             
                 <Button style={styles.ButtonText} onPress={copyToClipboard} title={`${address.substring(0, 15)}..`} />
+                <TouchableOpacity  onPress={onShare}>
                 <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
-                <Text style={styles.TextCopy}  onPress={onShare}> Share Address </Text>
+                <Text style={styles.TextCopy}>Share Address </Text>
                 </LinearGradient>
+                </TouchableOpacity>
                 
             {/* <Text>Below is your PrivateKey</Text>
             <TouchableOpacity onPress={copyPrivateKey}>

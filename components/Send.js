@@ -101,9 +101,11 @@ const Send = ({ navigation }) => {
             <TextInput selectTextOnFocus={true} placeholder='Amount' style={styles.TextInput} onChangeText={newText => setAmount(newText)} value={amount}/>
             <Text>{JSON.stringify(recipient)}</Text>
             <Text>{JSON.stringify(amount)}</Text>
+            <TouchableOpacity onPress={sendTransaction}>
             <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
-            <Text style={styles.TextCopy}  onPress={sendTransaction}> Send ETH</Text>
+            <Text style={styles.TextCopy} > Send ETH</Text>
             </LinearGradient>
+            </TouchableOpacity>
             <Link to="/Wallet">Wallet</Link>
         </View>
     )
