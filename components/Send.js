@@ -18,10 +18,12 @@ const Send = ({ navigation }) => {
     const [ address, setAddress ] = useState("⌛");
     const [ balance, setBalance ] = useState("⌛");
     const [ mnemonic, setMnemonic ] = useState("⌛");
-    const [ recipient, setRecipient ] = useState();
-    const [ amount, setAmount ] = useState();
+    const [ recipient, setRecipient ] = useState(null);
+    const [ amount, setAmount ] = useState(null);
     const [ gas, setGas ] = useState();
     const [ transactionError, setTransactionError] = useState(null);
+    // buttonValid to check for validation.
+    const [ buttonValid, setButtonValid ] = useState()
     useEffect(() => {
         const retrieve_connect = async () => {
             const result = await SecureStore.getItemAsync("pKey");
@@ -59,7 +61,24 @@ const Send = ({ navigation }) => {
         console.log(save);
         save();
         retrieve_connect();
+        const checkValueForInput = async () => {
+            if (amount == null) {
+                console.log("Empty")
+            } else {
+                console.log("not empty..")
+            }
+        }
+        checkValueForInput()
     }, [])
+    useEffect(() => {
+        const checkValueForInput = async () => {
+            if (amount == null) {
+                console.log("Empty")
+            }
+        }
+        checkValueForInput()
+    })
+
     const sendTransaction = async () => {
         // Reconnect here 
         const connection = await new ethers.getDefaultProvider('kovan');
@@ -101,7 +120,7 @@ const Send = ({ navigation }) => {
             <TextInput selectTextOnFocus={true} placeholder='Amount' style={styles.TextInput} onChangeText={newText => setAmount(newText)} value={amount}/>
             <Text>{JSON.stringify(recipient)}</Text>
             <Text>{JSON.stringify(amount)}</Text>
-            <TouchableOpacity onPress={sendTransaction}>
+            <TouchableOpacity onPress={sendTransaction} disabled={buttonValid}>
             <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
             <Text style={styles.TextCopy} > Send ETH</Text>
             </LinearGradient>

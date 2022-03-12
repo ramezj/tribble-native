@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Button, Text, View, TouchableOpacity, Modal, Pressable, Share } from 'react-native';
+import { StyleSheet, Button, Text, View, TouchableOpacity, Modal, Pressable, Share, FlatList } from 'react-native';
 import  AsyncStorage  from '@react-native-async-storage/async-storage';
 import { WebView } from 'react-native-webview'
 import "@ethersproject/shims"
@@ -24,7 +24,8 @@ const Wallet = ({ navigation }) => {
     const [ address, setAddress ] = useState("⌛");
     const [ balance, setBalance ] = useState("⌛");
     const [ mnemonic, setMnemonic ] = useState("⌛");
-    useEffect(() => {
+    const [ transactions, setTransactions ] = useState();
+    useEffect(async () => {
         const retrieve_connect = async () => {
             const result = await SecureStore.getItemAsync("pKey");
             if (result) {
@@ -49,6 +50,11 @@ const Wallet = ({ navigation }) => {
             const signer = wallet.connect(connection);
             const addy = await signer.getAddress();
             const balance = await signer.getBalance();
+            const response = await fetch(`https://api-kovan.etherscan.io/api?module=account&action=txlist&address=${addy}&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=2KQ9YKPQ1VG4E5FE4PUG7E5CHJWIVK2D43`)
+            const res = await response.json();
+            const transactions = await res.result;
+            console.log(transactions);
+            setTransactions(res.result)
             setBalance(ethers.utils.formatEther(balance._hex));
             setAddress(addy);
         }
@@ -56,6 +62,7 @@ const Wallet = ({ navigation }) => {
             await SecureStore.setItemAsync("key", "test 123")
         }
         save();
+        console.log(address);
         retrieve_connect();
     }, [])
     const copyToClipboard = () => {
@@ -87,14 +94,9 @@ const Wallet = ({ navigation }) => {
     return (
         <View style={styles.container}>
             {/* <Text>Below is your Address.</Text> */}
-            
+            <View style={styles.secondContainer}>
                 <Button style={styles.ButtonText} onPress={copyToClipboard} title={`${address.substring(0, 15)}..`} />
-                <TouchableOpacity  onPress={onShare}>
-                <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
-                <Text style={styles.TextCopy}>Share Address </Text>
-                </LinearGradient>
-                </TouchableOpacity>
-                
+                </View> 
             {/* <Text>Below is your PrivateKey</Text>
             <TouchableOpacity onPress={copyPrivateKey}>
             <Text>{JSON.stringify(wallet)}</Text>
@@ -102,12 +104,22 @@ const Wallet = ({ navigation }) => {
             <TouchableOpacity>
             <Text>{JSON.stringify(mnemonic)}</Text>
             </TouchableOpacity> */}
+            <View style={styles.thirdContainer}>
             <Text>Balance:</Text>
             <TouchableOpacity>
             <Text>{balance} ETH </Text>
             </TouchableOpacity>
             <Link to="/LogOut">Delete Token</Link>
             <Link to="/Send">Send</Link>
+            {/* { transactions.map(transaction => <Text key={transaction}>{JSON.stringify(transaction)}</Text>)} */}
+            </View>
+            <View style={styles.fourthContainer}>
+            <TouchableOpacity  onPress={onShare}>
+                <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
+                <Text style={styles.TextCopy}>Share Address </Text>
+                </LinearGradient>
+                </TouchableOpacity>
+                </View>
         </View>
     )
 }
@@ -118,12 +130,22 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
+      flexDirection: "column"
+    },
+    secondContainer: {
+      marginTop:200
+    },
+    thirdContainer: {
+      marginTop:50
+    },
+    fourthContainer: {
+      marginTop:350
     },
     ButtonText: {
       color: "white"
     },
     TextCopy: {
-        fontSize: 17,
+        fontSize: 20,
         color: "white",
         textAlign: "center",
         fontWeight: "bold"
