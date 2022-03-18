@@ -25,6 +25,8 @@ const Wallet = ({ navigation }) => {
     const [ balance, setBalance ] = useState("⌛");
     const [ mnemonic, setMnemonic ] = useState("⌛");
     const [ transactions, setTransactions ] = useState();
+    const [ transactionTrue, setTransactionTrue ] = useState(false);
+    console.log(transactions)
     useEffect(async () => {
         const retrieve_connect = async () => {
             const result = await SecureStore.getItemAsync("pKey");
@@ -53,8 +55,10 @@ const Wallet = ({ navigation }) => {
             const response = await fetch(`https://api-kovan.etherscan.io/api?module=account&action=txlist&address=${addy}&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=2KQ9YKPQ1VG4E5FE4PUG7E5CHJWIVK2D43`)
             const res = await response.json();
             const transactions = await res.result;
-            console.log(transactions);
             setTransactions(res.result)
+            setTransactionTrue(true);
+            console.log(transactions);
+            console.log(transactionTrue)
             setBalance(ethers.utils.formatEther(balance._hex));
             setAddress(addy);
         }
@@ -111,12 +115,15 @@ const Wallet = ({ navigation }) => {
             </TouchableOpacity>
             <Link to="/LogOut">Delete Token</Link>
             <Link to="/Send">Send</Link>
-            {/* { transactions.map(transaction => <Text key={transaction}>{JSON.stringify(transaction)}</Text>)} */}
+            <Text>{transactionTrue}</Text>
+            {transactionTrue ? <Text>{transactions.map(transaction => <Text key={transaction.hash}>{transaction.hash}</Text>)}</Text> : <Text>Loading Transactions.</Text>}
+            {/* { transactions.map(transaction => <Text key={transaction}>{transaction.hash}</Text>)} */}
             </View>
             <View style={styles.fourthContainer}>
             <TouchableOpacity  onPress={onShare}>
                 <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
                 <Text style={styles.TextCopy}>Share Address </Text>
+
                 </LinearGradient>
                 </TouchableOpacity>
                 </View>
