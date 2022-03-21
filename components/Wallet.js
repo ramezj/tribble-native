@@ -116,7 +116,7 @@ const Wallet = ({ navigation }) => {
             <Link to="/LogOut">Delete Token</Link>
             <Link to="/Send">Send</Link>
             <Text>{transactionTrue}</Text>
-            {transactionTrue ? <Text>{transactions.map(transaction => <Text key={transaction.hash}>{transaction.hash}</Text>)}</Text> : <Text>Loading Transactions.</Text>}
+            {transactionTrue ? <Text>{transactions.map(transaction =><Text><Link to={`https://kovan.etherscan.io/tx/${transaction.hash}`}>{transaction.hash}</Link></Text>)}</Text> : <Text>Loading Transactions.</Text>}
             {/* { transactions.map(transaction => <Text key={transaction}>{transaction.hash}</Text>)} */}
             </View>
             <View style={styles.fourthContainer}>
