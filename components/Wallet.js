@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Button, Text, View, TouchableOpacity, Modal, Pressable, Share, FlatList } from 'react-native';
+import { StyleSheet, Button, Text, View, TouchableOpacity, Modal, Pressable, Share, FlatList, Linking, ScrollView } from 'react-native';
 import  AsyncStorage  from '@react-native-async-storage/async-storage';
 import { WebView } from 'react-native-webview'
 import "@ethersproject/shims"
@@ -98,9 +98,6 @@ const Wallet = ({ navigation }) => {
     return (
         <View style={styles.container}>
             {/* <Text>Below is your Address.</Text> */}
-            <View style={styles.secondContainer}>
-                <Button style={styles.ButtonText} onPress={copyToClipboard} title={`${address.substring(0, 15)}..`} />
-                </View> 
             {/* <Text>Below is your PrivateKey</Text>
             <TouchableOpacity onPress={copyPrivateKey}>
             <Text>{JSON.stringify(wallet)}</Text>
@@ -108,48 +105,108 @@ const Wallet = ({ navigation }) => {
             <TouchableOpacity>
             <Text>{JSON.stringify(mnemonic)}</Text>
             </TouchableOpacity> */}
-            <View style={styles.thirdContainer}>
+            {/* <View style={styles.thirdContainer}>
+            <Button style={styles.ButtonText} onPress={copyToClipboard} title={`${address.substring(0, 15)}..`} />
             <Text>Balance:</Text>
             <TouchableOpacity>
             <Text>{balance} ETH </Text>
             </TouchableOpacity>
             <Link to="/LogOut">Delete Token</Link>
-            <Link to="/Send">Send</Link>
-            <Text>{transactionTrue}</Text>
-            {transactionTrue ? <Text>{transactions.map(transaction =><Text><Link to={`https://kovan.etherscan.io/tx/${transaction.hash}`}>{transaction.hash}</Link></Text>)}</Text> : <Text>Loading Transactions.</Text>}
+            <Link to="/Send">Send</Link> */}
             {/* { transactions.map(transaction => <Text key={transaction}>{transaction.hash}</Text>)} */}
-            </View>
+            {/* <Link to={`https://kovan.etherscan.io/tx/${transaction.hash}`}>{transaction.hash}</Link> */}
+            {/* </View>
             <View style={styles.fourthContainer}>
             <TouchableOpacity  onPress={onShare}>
-                <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
-                <Text style={styles.TextCopy}>Share Address </Text>
-
-                </LinearGradient>
-                </TouchableOpacity>
-                </View>
+            <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
+            <Text style={styles.TextCopy}>Share Address </Text>
+            </LinearGradient>
+            </TouchableOpacity>
+            </View> */}
+            <View style={[styles.container, {
+      // Try setting `flexDirection` to `"row"`.
+      flexDirection: "column"
+    }]}>
+    <View style={styles.topView}> 
+     <Text>{"\n"}</Text>
+     <Text>{"\n"}</Text>
+      <Button style={styles.ButtonText} onPress={copyToClipboard} title={`${address.substring(0, 4)}..${address.slice(-5)}`} />
+      <Text>Balance:</Text>
+            <TouchableOpacity>
+            <Text>{balance} ETH </Text>
+            </TouchableOpacity>
+            <Link to="/LogOut">Delete Token</Link>
+            <Link to="/Send">Send</Link>
+      </View>
+      <View style={styles.middleView}> 
+      <Text style={styles.middleViewTopText}>Transactions:</Text>
+      <ScrollView style={styles.scrollView}>
+            <Text>{transactionTrue}</Text>
+            {transactionTrue ? <Text>{transactions.map(transaction =><Text key={transaction.hash}><TouchableOpacity ><Text onPress={() => Linking.openURL(`https://kovan.etherscan.io/tx/${transaction.hash}`)}>{transaction.hash}</Text></TouchableOpacity></Text>)}</Text> : <Text>Loading Transactions.</Text>}
+            </ScrollView>
+      </View>
+      <View style={styles.bottomView}>
+      <TouchableOpacity style={styles.touchableButton}  onPress={onShare}>
+            <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
+            <Text style={styles.TextCopy}>Recieve</Text>
+            </LinearGradient>
+            </TouchableOpacity>
+        </View>
+    </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    // container: {
+    //   flex: 1,
+    //   backgroundColor: '#fff',
+    //   alignItems: 'center',
+    //   justifyContent: 'center',
+    //   flexDirection: "column"
+    // },
     container: {
       flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: "column"
+      padding: 0,
+      alignContent: "center",
+      width:"100%"
     },
-    secondContainer: {
-      marginTop:200
+    topView: {
+      flex: 2.5,
+      backgroundColor: "red",
+      textAlign: "center",
+      alignItems: "center",
+      alignContent: "center"
     },
-    thirdContainer: {
-      marginTop:50
+    middleView: {
+      flex: 3,
+      backgroundColor: "darkorange"
     },
-    fourthContainer: {
-      marginTop:350
+    bottomView: {
+      flex: 2, 
+      backgroundColor: "green", 
+      alignContent:"center",
+      textAlign: "center",
+      alignItems: "center",
+      alignContent: "center"
     },
+    middleViewTopText: {
+      fontWeight:"bold",
+      fontSize:25,
+      alignContent:"center",
+      textAlign: "center",
+      alignItems: "center",
+      alignContent: "center"
+    },
+    // thirdContainer: {
+    //   marginTop:100
+    // },
+    // fourthContainer: {
+    //   marginTop:-500,
+    //   marginBottom:100
+    // },
     ButtonText: {
-      color: "white"
+      fontWeight:"bold"
     },
     TextCopy: {
         fontSize: 20,
@@ -157,37 +214,46 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontWeight: "bold"
     },
-    text: {
-        color: 'red',
-    },
-    address: {
-        color: 'blue',
-        fontWeight:"bold"
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
-      },
-      centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22
-      },button: {
+    // text: {
+    //     color: 'red',
+    // },
+    // address: {
+    //     color: 'blue',
+    //     fontWeight:"bold"
+    // },
+    // modalView: {
+    //     margin: 20,
+    //     backgroundColor: "white",
+    //     borderRadius: 20,
+    //     padding: 35,
+    //     alignItems: "center",
+    //     shadowColor: "#000",
+    //     shadowOffset: {
+    //       width: 0,
+    //       height: 2
+    //     },
+    //     shadowOpacity: 0.25,
+    //     shadowRadius: 4,
+    //     elevation: 5
+    //   },
+    //   centeredView: {
+    //     flex: 1,
+    //     justifyContent: "center",
+    //     alignItems: "center",
+    //     marginTop: 22
+      // },
+      button: {
+        marginTop:100,
         borderRadius: 20,
         padding: 10,
-        elevation: 2
+        elevation: 2,
+        width:"50pt",
+        textAlign: "center",
+      alignItems: "center",
+      alignContent: "center"
+      },
+      touchableButton: {
+        width:"45%"
       },
       buttonOpen: {
         backgroundColor: "#F194FF",
@@ -200,10 +266,10 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center"
       },
-      modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-      }
+    //   modalText: {
+    //     marginBottom: 15,
+    //     textAlign: "center"
+    //   }
   });
 
 export default Wallet
