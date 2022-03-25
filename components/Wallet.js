@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     },
     bottomView: {
       flex: 2, 
-      backgroundColor: "green", 
+      backgroundColor: "#10041c", 
       alignContent:"center",
       textAlign: "center",
       alignItems: "center",
