@@ -146,25 +146,23 @@ const Wallet = ({ navigation }) => {
             </ScrollView>
       </View>
       <View style={styles.bottomView}>
-      <TouchableOpacity style={styles.touchableButton}  onPress={onShare}>
+      <TouchableOpacity style={styles.touchableButton}>
+            <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
+            <Text style={styles.TextCopy}><Link to="/Send">Send</Link></Text>
+            </LinearGradient>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.touchableButton}  onPress={onShare}>
             <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
             <Text style={styles.TextCopy}>Recieve</Text>
             </LinearGradient>
-            </TouchableOpacity>
-        </View>
-    </View>
-        </View>
+        </TouchableOpacity>
+      </View>
+      </View>
+      </View>
     )
 }
 
 const styles = StyleSheet.create({
-    // container: {
-    //   flex: 1,
-    //   backgroundColor: '#fff',
-    //   alignItems: 'center',
-    //   justifyContent: 'center',
-    //   flexDirection: "column"
-    // },
     container: {
       flex: 1,
       padding: 0,
@@ -173,7 +171,7 @@ const styles = StyleSheet.create({
     },
     topView: {
       flex: 2.5,
-      backgroundColor: "red",
+      backgroundColor: "white",
       textAlign: "center",
       alignItems: "center",
       alignContent: "center"
@@ -184,11 +182,16 @@ const styles = StyleSheet.create({
     },
     bottomView: {
       flex: 2, 
+      flexDirection:'row',
       backgroundColor: "#10041c", 
       alignContent:"center",
       textAlign: "center",
-      alignItems: "center",
-      alignContent: "center"
+      alignContent: "center",
+      justifyContent:"center",
+    },
+    touchableButton: {
+      width:"45%",
+      fontWeight: "bold"
     },
     middleViewTopText: {
       fontWeight:"bold",
@@ -198,13 +201,6 @@ const styles = StyleSheet.create({
       alignItems: "center",
       alignContent: "center"
     },
-    // thirdContainer: {
-    //   marginTop:100
-    // },
-    // fourthContainer: {
-    //   marginTop:-500,
-    //   marginBottom:100
-    // },
     ButtonText: {
       fontWeight:"bold"
     },
@@ -214,46 +210,16 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontWeight: "bold"
     },
-    // text: {
-    //     color: 'red',
-    // },
-    // address: {
-    //     color: 'blue',
-    //     fontWeight:"bold"
-    // },
-    // modalView: {
-    //     margin: 20,
-    //     backgroundColor: "white",
-    //     borderRadius: 20,
-    //     padding: 35,
-    //     alignItems: "center",
-    //     shadowColor: "#000",
-    //     shadowOffset: {
-    //       width: 0,
-    //       height: 2
-    //     },
-    //     shadowOpacity: 0.25,
-    //     shadowRadius: 4,
-    //     elevation: 5
-    //   },
-    //   centeredView: {
-    //     flex: 1,
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //     marginTop: 22
-      // },
       button: {
+        marginHorizontal:10,
         marginTop:100,
         borderRadius: 20,
         padding: 10,
         elevation: 2,
-        width:"50pt",
         textAlign: "center",
       alignItems: "center",
-      alignContent: "center"
-      },
-      touchableButton: {
-        width:"45%"
+      alignContent: "center",
+      fontWeight: "bold"
       },
       buttonOpen: {
         backgroundColor: "#F194FF",
@@ -265,11 +231,7 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
         textAlign: "center"
-      },
-    //   modalText: {
-    //     marginBottom: 15,
-    //     textAlign: "center"
-    //   }
+      }
   });
 
 export default Wallet
