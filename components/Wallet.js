@@ -112,10 +112,9 @@ const Wallet = ({ navigation }) => {
       <Button style={styles.ButtonText} onPress={copyToClipboard} title={`${address.substring(0, 4)}..${address.slice(-5)}`} />
       <Text>Balance:</Text>
             <TouchableOpacity>
-            <Text>{balance} ETH </Text>
+            <Text>{balance * ethPrice} USD </Text>
             </TouchableOpacity>
             <Link to="/LogOut">Delete Token</Link>
-            <Text>{ethPrice}</Text>
       </View>
       <View style={styles.middleView}> 
       <Text style={styles.middleViewTopText}>Transactions:</Text>
