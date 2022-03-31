@@ -26,6 +26,7 @@ const Wallet = ({ navigation }) => {
     const [ mnemonic, setMnemonic ] = useState("⌛");
     const [ transactions, setTransactions ] = useState();
     const [ transactionTrue, setTransactionTrue ] = useState(false);
+    const [ ethPrice, setEthPrice ]= useState();
     console.log(transactions)
     useEffect(async () => {
         const retrieve_connect = async () => {
@@ -55,6 +56,10 @@ const Wallet = ({ navigation }) => {
             const response = await fetch(`https://api-kovan.etherscan.io/api?module=account&action=txlist&address=${addy}&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=2KQ9YKPQ1VG4E5FE4PUG7E5CHJWIVK2D43`)
             const res = await response.json();
             const transactions = await res.result;
+            const eth_price = await fetch(`https://api.etherscan.io/api?module=stats&action=ethprice&apikey=2KQ9YKPQ1VG4E5FE4PUG7E5CHJWIVK2D43`);
+            const eth_price_response = await eth_price.json();
+            console.log(eth_price_response.result.ethusd)
+            setEthPrice(eth_price_response.result.ethusd)
             setTransactions(res.result)
             setTransactionTrue(true);
             console.log(transactions);
@@ -97,32 +102,6 @@ const Wallet = ({ navigation }) => {
       };
     return (
         <View style={styles.container}>
-            {/* <Text>Below is your Address.</Text> */}
-            {/* <Text>Below is your PrivateKey</Text>
-            <TouchableOpacity onPress={copyPrivateKey}>
-            <Text>{JSON.stringify(wallet)}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-            <Text>{JSON.stringify(mnemonic)}</Text>
-            </TouchableOpacity> */}
-            {/* <View style={styles.thirdContainer}>
-            <Button style={styles.ButtonText} onPress={copyToClipboard} title={`${address.substring(0, 15)}..`} />
-            <Text>Balance:</Text>
-            <TouchableOpacity>
-            <Text>{balance} ETH </Text>
-            </TouchableOpacity>
-            <Link to="/LogOut">Delete Token</Link>
-            <Link to="/Send">Send</Link> */}
-            {/* { transactions.map(transaction => <Text key={transaction}>{transaction.hash}</Text>)} */}
-            {/* <Link to={`https://kovan.etherscan.io/tx/${transaction.hash}`}>{transaction.hash}</Link> */}
-            {/* </View>
-            <View style={styles.fourthContainer}>
-            <TouchableOpacity  onPress={onShare}>
-            <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
-            <Text style={styles.TextCopy}>Share Address </Text>
-            </LinearGradient>
-            </TouchableOpacity>
-            </View> */}
             <View style={[styles.container, {
       // Try setting `flexDirection` to `"row"`.
       flexDirection: "column"
@@ -136,7 +115,7 @@ const Wallet = ({ navigation }) => {
             <Text>{balance} ETH </Text>
             </TouchableOpacity>
             <Link to="/LogOut">Delete Token</Link>
-            <Link to="/Send">Send</Link>
+            <Text>{ethPrice}</Text>
       </View>
       <View style={styles.middleView}> 
       <Text style={styles.middleViewTopText}>Transactions:</Text>
@@ -161,7 +140,6 @@ const Wallet = ({ navigation }) => {
       </View>
     )
 }
-
 const styles = StyleSheet.create({
     container: {
       flex: 1,
