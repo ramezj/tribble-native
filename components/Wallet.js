@@ -100,6 +100,10 @@ const Wallet = ({ navigation }) => {
           alert(error.message);
         }
       };
+      const formatPrice = p => p.toLocaleString('en-US', {
+        minimumFractionDigits: 2,      
+        maximumFractionDigits: 3,
+     });
     return (
         <View style={styles.container}>
             <View style={[styles.container, {
@@ -109,10 +113,11 @@ const Wallet = ({ navigation }) => {
     <View style={styles.topView}> 
      <Text>{"\n"}</Text>
      <Text>{"\n"}</Text>
+     <Text>{"\n"}</Text>
+     
       <Button style={styles.ButtonText} onPress={copyToClipboard} title={`${address.substring(0, 4)}..${address.slice(-5)}`} />
-      <Text>Balance:</Text>
             <TouchableOpacity>
-            <Text>{balance * ethPrice} USD </Text>
+            <Text style={styles.AccountBalance}>${formatPrice(balance * ethPrice)}</Text>
             </TouchableOpacity>
             <Link to="/LogOut">Delete Token</Link>
       </View>
@@ -179,13 +184,14 @@ const styles = StyleSheet.create({
       alignContent: "center"
     },
     ButtonText: {
-      fontWeight:"bold"
+      fontWeight:"bold",
+      fontSize:25
     },
     TextCopy: {
-        fontSize: 20,
+        fontSize: 23,
         color: "white",
         textAlign: "center",
-        fontWeight: "bold"
+        fontWeight:"bold"
     },
       button: {
         marginHorizontal:10,
@@ -208,6 +214,10 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
         textAlign: "center"
+      },
+      AccountBalance: {
+        fontWeight:"bold",
+        fontSize:20
       }
   });
 
