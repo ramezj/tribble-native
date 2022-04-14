@@ -111,22 +111,25 @@ const Wallet = ({ navigation }) => {
       flexDirection: "column"
     }]}>
     <View style={styles.topView}> 
+    <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.topViewGradiant}>
      <Text>{"\n"}</Text>
      <Text>{"\n"}</Text>
      <Text>{"\n"}</Text>
-     
       <Button style={styles.ButtonText} onPress={copyToClipboard} title={`${address.substring(0, 4)}..${address.slice(-5)}`} />
             <TouchableOpacity>
             <Text style={styles.AccountBalance}>${formatPrice(balance * ethPrice)}</Text>
             </TouchableOpacity>
-            <Link to="/LogOut">Delete Token</Link>
+            <Link to="/LogOut" style={styles.deleteToken}>Delete Token</Link>
+            </LinearGradient>
       </View>
       <View style={styles.middleView}> 
+      <Text>{"\n"}</Text>
       <Text style={styles.middleViewTopText}>Transactions:</Text>
       <ScrollView style={styles.scrollView}>
             <Text>{transactionTrue}</Text>
-            {transactionTrue ? <Text>{transactions.map(transaction =><Text key={transaction.hash}><TouchableOpacity ><Text onPress={() => Linking.openURL(`https://kovan.etherscan.io/tx/${transaction.hash}`)}>{transaction.hash}</Text></TouchableOpacity></Text>)}</Text> : <Text>Loading Transactions.</Text>}
+            {transactionTrue ? <Text>{transactions.map(transaction =><Text key={transaction.hash}><TouchableOpacity ><Text style={styles.transactionsList} onPress={() => Linking.openURL(`https://kovan.etherscan.io/tx/${transaction.hash}`)}>{transaction.hash}</Text></TouchableOpacity></Text>)}</Text> : <Text>Loading Transactions.</Text>}
             </ScrollView>
+            
       </View>
       <View style={styles.bottomView}>
       <TouchableOpacity style={styles.touchableButton}>
@@ -153,19 +156,25 @@ const styles = StyleSheet.create({
     },
     topView: {
       flex: 2.5,
-      backgroundColor: "white",
       textAlign: "center",
       alignItems: "center",
-      alignContent: "center"
+      alignContent: "center",
+    },
+    topViewGradiant: {
+      width:"100%",
+      flex: 2.5,
+      textAlign: "center",
+      alignItems: "center",
+      alignContent: "center",
     },
     middleView: {
       flex: 3,
-      backgroundColor: "darkorange"
+      backgroundColor: "white"
     },
     bottomView: {
       flex: 2, 
       flexDirection:'row',
-      backgroundColor: "#10041c", 
+      backgroundColor: "white", 
       alignContent:"center",
       textAlign: "center",
       alignContent: "center",
@@ -181,7 +190,8 @@ const styles = StyleSheet.create({
       alignContent:"center",
       textAlign: "center",
       alignItems: "center",
-      alignContent: "center"
+      alignContent: "center",
+      color:"#10041c"
     },
     ButtonText: {
       fontWeight:"bold",
@@ -217,7 +227,14 @@ const styles = StyleSheet.create({
       },
       AccountBalance: {
         fontWeight:"bold",
-        fontSize:20
+        fontSize:27,
+        color:"white"
+      },
+      deleteToken: {
+        color:"#10041c"
+      },
+      transactionsList: {
+        color:"#10041c"
       }
   });
 

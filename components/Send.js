@@ -22,6 +22,7 @@ const Send = ({ navigation }) => {
     const [ amount, setAmount ] = useState(null);
     const [ gas, setGas ] = useState();
     const [ transactionError, setTransactionError] = useState(null);
+    const [ ethPrice, setEthPrice ] = useState();
     // buttonValid to check for validation.
     const [ buttonValid, setButtonValid ] = useState()
     useEffect(() => {
@@ -49,6 +50,9 @@ const Send = ({ navigation }) => {
             const signer = wallet.connect(connection);
             const addy = await signer.getAddress();
             const gasPrice = await connection.getGasPrice();
+            const eth_price = await fetch(`https://api.etherscan.io/api?module=stats&action=ethprice&apikey=2KQ9YKPQ1VG4E5FE4PUG7E5CHJWIVK2D43`);
+            const eth_price_response = await eth_price.json();
+            setEthPrice(eth_price_response.result.ethusd)
             setGas(gasPrice.hex)
             const balance = await signer.getBalance();
             setBalance(ethers.utils.formatEther(balance._hex));
@@ -109,33 +113,93 @@ const Send = ({ navigation }) => {
       const copyPrivateKey = () => {
         Clipboard.setString(wallet);
       };
+        const formatPrice = p => p.toLocaleString('en-US', {
+        minimumFractionDigits: 2,      
+        maximumFractionDigits: 3,
+     });
     return (
         <View style={styles.container}>
-            <Text>{transactionError}</Text>
-            <Text>Balance:</Text>
+            <View style={[styles.container, {
+      // Try setting `flexDirection` to `"row"`.
+      flexDirection: "column"
+    }]}>
+         <View style={styles.topView}> 
+     <Text>{"\n"}</Text>
+     <Text>{"\n"}</Text>
+     <Text>{"\n"}</Text>
+      <Button style={styles.ButtonText} onPress={copyToClipboard} title={`${address.substring(0, 4)}..${address.slice(-5)}`} />
             <TouchableOpacity>
-            <Text>{JSON.stringify(balance)}</Text>
+            <Text style={styles.AccountBalance}>${formatPrice(balance * ethPrice)}</Text>
             </TouchableOpacity>
+            <Link to="/LogOut">Delete Token</Link>
+      </View>
+      <View style={styles.middleView}>
             <TextInput selectTextOnFocus={true} placeholder='Recipient' style={styles.TextInput} onChangeText={newText => setRecipient(newText)} value={recipient}/>
             <TextInput selectTextOnFocus={true} placeholder='Amount' style={styles.TextInput} onChangeText={newText => setAmount(newText)} value={amount}/>
             <Text>{JSON.stringify(recipient)}</Text>
             <Text>{JSON.stringify(amount)}</Text>
             <TouchableOpacity onPress={sendTransaction} disabled={buttonValid}>
             <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
+            <TouchableOpacity style={styles.TouchableButton}>
             <Text style={styles.TextCopy} > Send ETH</Text>
+            </TouchableOpacity>
             </LinearGradient>
             </TouchableOpacity>
             <Link to="/Wallet">Wallet</Link>
+            </View>
+            <View style={styles.bottomView}>
+        <TouchableOpacity style={styles.touchableButton}>
+            <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
+            <Text style={styles.TextCopy}>Send Transaction </Text>
+            </LinearGradient>
+        </TouchableOpacity>
+      </View>
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+        flex: 1,
+        padding: 0,
+        alignContent: "center",
+        width:"100%"
+      },
+      topView: {
+        flex: 2.5,
+        backgroundColor: "white",
+        textAlign: "center",
+        alignItems: "center",
+        alignContent: "center"
+      },
+      middleView: {
+        flex: 3,
+        backgroundColor: "darkorange"
+      },
+      bottomView: {
+        flex: 2, 
+        flexDirection:'row',
+        backgroundColor: "#10041c", 
+        alignContent:"center",
+        textAlign: "center",
+        alignContent: "center",
+        justifyContent:"center",
+      },
+      middleViewTopText: {
+        fontWeight:"bold",
+        fontSize:25,
+        alignContent:"center",
+        textAlign: "center",
+        alignItems: "center",
+        alignContent: "center"
+      },
+    balance: {
+        fontWeight: "bold",
+    },
+    AccountBalance: {
+        fontWeight:"bold",
+        fontSize:20
     },
     text: {
         color: 'red',
@@ -145,10 +209,10 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     TextCopy: {
-        fontSize: 17,
+        fontSize: 20,
         color: "white",
         textAlign: "center",
-        fontWeight: "bold"
+        fontWeight: "bold",
     },
     centeredView: {
         flex: 1,
@@ -159,6 +223,10 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 10,
         elevation: 2
+      },
+      touchableButton: {
+        width:"55%",
+        fontWeight: "bold",
       },
   });
 
