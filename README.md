@@ -10,7 +10,7 @@ yarn start
 ```
 ## Screenshots
 ![Logo](https://i.imgur.com/Pjw2fzf.png)
-![Logo](https://i.imgur.com/PyTFxmH.png)
+![Logo](https://i.imgur.com/hAYO9ka.png)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
