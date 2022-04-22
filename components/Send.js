@@ -109,6 +109,9 @@ const Send = ({ navigation }) => {
     const copyToClipboard = () => {
         Clipboard.setString(address);
       };
+      const copyBalance = () => {
+        Clipboard.setString(balance);
+      };
       // only for beta testing.
       const copyPrivateKey = () => {
         Clipboard.setString(wallet);
@@ -130,6 +133,9 @@ const Send = ({ navigation }) => {
       <Button style={styles.ButtonText} onPress={copyToClipboard} title={`${address.substring(0, 4)}..${address.slice(-5)}`} />
             <TouchableOpacity>
             <Text style={styles.AccountBalance}>${formatPrice(balance * ethPrice)}</Text>
+            <TouchableOpacity onPress={copyBalance}>
+            <Text style={styles.AccountBalance}>${formatPrice(balance)}</Text>
+            </TouchableOpacity>
             </TouchableOpacity>
             <Link to="/LogOut">Delete Token</Link>
       </View>
@@ -140,7 +146,7 @@ const Send = ({ navigation }) => {
             <Text>{JSON.stringify(amount)}</Text>
             <TouchableOpacity onPress={sendTransaction} disabled={buttonValid}>
             <LinearGradient colors={['#ee0979','#ff6a00']} start={[0.0, 0.0]} end={[1.0, 1.0]} style={styles.button}>
-            <TouchableOpacity style={styles.TouchableButton}>
+            <TouchableOpacity style={styles.TouchableButton} onPress={sendTransaction}>
             <Text style={styles.TextCopy} > Send ETH</Text>
             </TouchableOpacity>
             </LinearGradient>

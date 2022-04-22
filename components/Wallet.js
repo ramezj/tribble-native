@@ -124,7 +124,7 @@ const Wallet = ({ navigation }) => {
       </View>
       <View style={styles.middleView}> 
       <Text>{"\n"}</Text>
-      <Text style={styles.middleViewTopText}>Transactions:</Text>
+      <Text style={styles.middleViewTopText}>Transactions</Text>
       <ScrollView style={styles.scrollView}>
             <Text>{transactionTrue}</Text>
             {transactionTrue ? <Text>{transactions.map(transaction =><Text key={transaction.hash}><TouchableOpacity ><Text style={styles.transactionsList} onPress={() => Linking.openURL(`https://kovan.etherscan.io/tx/${transaction.hash}`)}>{transaction.hash}</Text></TouchableOpacity></Text>)}</Text> : <Text>Loading Transactions.</Text>}
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
       },
       AccountBalance: {
         fontWeight:"bold",
-        fontSize:27,
+        fontSize:35,
         color:"white"
       },
       deleteToken: {
